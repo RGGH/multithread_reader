@@ -1,7 +1,7 @@
-use std::io::Read;
-use std::thread;
-use std::path::PathBuf;
 use std::fs::File;
+use std::io::Read;
+use std::path::PathBuf;
+use std::thread;
 
 fn main() {
     let file_list = vec![
@@ -10,7 +10,7 @@ fn main() {
         PathBuf::from("file3.txt"),
         PathBuf::from("file4.txt"),
     ];
-    
+
     let mut handles = Vec::new();
 
     for file_path in file_list {
@@ -21,18 +21,17 @@ fn main() {
                     if let Ok(_) = file.read_to_string(&mut content) {
                         println!("Content of {}: {}", file_path.display(), content);
                     }
-                },
+                }
                 Err(_) => {
                     eprintln!("Error opening or reading {}", file_path.display());
                 }
             }
         });
-        
+
         handles.push(handle);
     }
-    
+
     for handle in handles {
         handle.join().unwrap();
     }
 }
-
